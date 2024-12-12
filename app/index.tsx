@@ -1,8 +1,17 @@
 import { useEffect, useState } from "react";
-import { Text, View, StyleSheet, ScrollView } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
+import { useRouter } from "expo-router";
 import { fetchTasks } from "./services/api";
 
 export default function Index() {
+  const router = useRouter();
+
   interface Task {
     id: string;
     title: string;
@@ -35,22 +44,30 @@ export default function Index() {
   }, []);
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        {datas.tasks.map((task) => (
-          <View style={styles.card}>
-            <View>
-              <Text style={styles.title}>{task.title}</Text>
-              <Text>{task.description}</Text>
+    <View style={{ flex: 1 }}>
+      <ScrollView>
+        <View style={styles.container}>
+          {datas.tasks.map((task) => (
+            <View style={styles.card} key={task.id}>
+              <View>
+                <Text style={styles.title}>{task.title}</Text>
+                <Text>{task.description}</Text>
+              </View>
+              <View style={styles.midCardItem}>
+                <View style={styles.circle}></View>
+                <Text>{task.dueDate}</Text>
+              </View>
             </View>
-            <View style={styles.midCardItem}>
-              <View style={styles.circle}></View>
-              <Text>{task.dueDate}</Text>
-            </View>
-          </View>
-        ))}
-      </View>
-    </ScrollView>
+          ))}
+        </View>
+      </ScrollView>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => router.push("/add")}
+      >
+        <Text style={styles.buttonContent}>+</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 
@@ -82,5 +99,24 @@ const styles = StyleSheet.create({
     width: 12,
     height: 12,
     backgroundColor: "#666666",
+  },
+  button: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "green",
+    position: "absolute",
+    bottom: 30,
+    right: 30,
+    padding: 6,
+    borderRadius: "100%",
+    aspectRatio: 1,
+  },
+  buttonContent: {
+    fontSize: 40,
+    textAlign: "center",
+    color: "#ffffff",
+    padding: 0,
+    aspectRatio: 1,
   },
 });

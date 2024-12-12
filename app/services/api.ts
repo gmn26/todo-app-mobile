@@ -1,4 +1,4 @@
-const URI = "http://192.168.100.25:3000/api/v1/task"
+const URI = "http://192.168.100.17:3000/api/v1/task"
 
 interface Task {
     id: string;
@@ -35,12 +35,6 @@ interface AddReturn {
     result: Task;
 }
 
-interface DelReturn {
-    success: string;
-    error?: string;
-    message?: string;
-}
-
 export const fetchTasks = async (): Promise<FetchReturn> => {
     try {
         const response = await fetch(URI);
@@ -70,21 +64,6 @@ export const addTask = async (bodyReq: AddTask): Promise<AddReturn> => {
         });
 
         const resp = await response.json();
-        return resp;
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-}
-
-export const delTask = async (id: string): Promise<DelReturn> => {
-    try {
-        const response = await fetch(URI + "/del/" + id, {
-            method: "DELETE",
-        });
-
-        const resp = await response.json();
-
         return resp;
     } catch (error) {
         console.error(error);
