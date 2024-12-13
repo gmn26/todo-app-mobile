@@ -45,6 +45,13 @@ export default function Index() {
 
   return (
     <View style={{ flex: 1 }}>
+      <View
+        style={{
+          padding: 12,
+        }}
+      >
+        <Text>Total Task : {datas.totalTask}</Text>
+      </View>
       <ScrollView>
         <View style={styles.container}>
           {datas.tasks.map((task) => (

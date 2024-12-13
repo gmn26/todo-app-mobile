@@ -1,10 +1,19 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
+import { addTask } from "./services/api";
+import { router } from "expo-router";
 
 export default function Add() {
+  interface AddTask {
+    title: string;
+    description: string;
+    dueDate: string;
+  }
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
+    dueDate: "2024-12-12",
   });
 
   const inputHandler = (name: string, value: string) => {
@@ -12,6 +21,20 @@ export default function Add() {
       ...formData,
       [name]: value,
     }));
+  };
+
+  const submitHandler = async (body: AddTask) => {
+    try {
+      const response = await addTask(body);
+      if (!response.success) {
+        alert("Gagal tambah data");
+      } else {
+        alert("Berhasil tambah data");
+        router.push("/");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -35,7 +58,7 @@ export default function Add() {
           placeholder="Description"
           onChangeText={(text) => inputHandler("description", text)}
         />
-        <Button title="Save Task" />
+        <Button title="Save Task" onPress={() => submitHandler(formData)} />
       </View>
     </View>
   );

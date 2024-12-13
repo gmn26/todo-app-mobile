@@ -1,4 +1,4 @@
-const URI = "http://192.168.100.17:3000/api/v1/task"
+const URI = "http://192.168.100.19:3000/api/v1/task"
 
 interface Task {
     id: string;
@@ -62,6 +62,7 @@ export const addTask = async (bodyReq: AddTask): Promise<AddReturn> => {
             },
             body,
         });
+
 
         const resp = await response.json();
         return resp;
